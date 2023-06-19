@@ -46,8 +46,9 @@
     },
     "commands": [
       {
-        "command": "declutter.helloWorld",
-        "title": "Hello World"
+        "command": "declutter.updateAutoHideSidebar",
+        "category": "Declutter",
+        "title": "Update Sidebar auto hide behavior"
       }
     ]
   },
