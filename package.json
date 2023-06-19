@@ -48,7 +48,12 @@
       {
         "command": "declutter.updateAutoHideSidebar",
         "category": "Declutter",
-        "title": "Update Sidebar auto hide behavior"
+        "title": "Update sidebar auto hide behavior"
+      },
+      {
+        "command": "declutter.updateAutoHideDelay",
+        "category": "Declutter",
+        "title": "Update sidebar auto hide delay"
       }
     ]
   },

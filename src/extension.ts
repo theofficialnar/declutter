@@ -50,6 +50,30 @@ export function activate(context: vscode.ExtensionContext) {
         });
     })
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("declutter.updateAutoHideDelay", () => {
+      vscode.window
+        .showInputBox({
+          placeHolder: "Input desired delay in ms",
+          validateInput: (value) =>
+            isNaN(parseFloat(value)) ? "Input must be of type number" : null,
+        })
+        .then(async (result) => {
+          if (!!!result) {
+            return;
+          }
+
+          const delay = parseFloat(result);
+
+          if (!isNaN(delay)) {
+            const config = vscode.workspace.getConfiguration("declutter");
+
+            await config.update("delay", delay, false);
+          }
+        });
+    })
+  );
 }
 
 export function deactivate() {}
