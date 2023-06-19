@@ -36,14 +36,19 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "declutter.updateAutoHideSidebar",
-      async () => {
-        const config = vscode.workspace.getConfiguration("declutter");
+    vscode.commands.registerCommand("declutter.updateAutoHideSidebar", () => {
+      vscode.window
+        .showQuickPick(["true", "false"], {
+          placeHolder: "Auto hide the sidebar",
+        })
+        .then(async (result) => {
+          if (!!result) {
+            const config = vscode.workspace.getConfiguration("declutter");
 
-        await config.update("autoHideSidebar", !config.autoHideSidebar, false);
-      }
-    )
+            await config.update("autoHideSidebar", result === "true", false);
+          }
+        });
+    })
   );
 }
 
