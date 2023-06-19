@@ -3,19 +3,17 @@ import { TextEditorSelectionChangeKind } from "vscode";
 
 export function activate(context: vscode.ExtensionContext) {
   let timerId: NodeJS.Timeout;
-  const timeoutDelay: number =
-    vscode.workspace.getConfiguration("declutter").delay;
-  const isAutoHideSidebar: boolean =
-    vscode.workspace.getConfiguration("declutter").autoHideSidebar;
-
-  vscode.window.showInformationMessage(
-    `Current timer delay is: ${timeoutDelay}`
-  );
-  vscode.window.showInformationMessage(
-    `Autohide sidebar: ${isAutoHideSidebar}`
-  );
 
   function triggerAutohide() {
+    const timeoutDelay: number =
+      vscode.workspace.getConfiguration("declutter").delay;
+    const isAutoHideSidebar: boolean =
+      vscode.workspace.getConfiguration("declutter").autoHideSidebar;
+
+    if (!isAutoHideSidebar) {
+      return;
+    }
+
     clearTimeout(timerId);
 
     timerId = setTimeout(() => {
@@ -23,22 +21,19 @@ export function activate(context: vscode.ExtensionContext) {
     }, timeoutDelay);
   }
 
-  if (isAutoHideSidebar) {
-    // User selected something on the text editor
-    vscode.window.onDidChangeTextEditorSelection((evt) => {
-      if (!!evt && evt.kind === TextEditorSelectionChangeKind.Mouse) {
-        triggerAutohide();
-      }
-    });
+  // User selected something on the text editor
+  vscode.window.onDidChangeTextEditorSelection((evt) => {
+    if (!!evt && evt.kind === TextEditorSelectionChangeKind.Mouse) {
+      triggerAutohide();
+    }
+  });
 
-    // User changed tabs
-    vscode.window.onDidChangeActiveTextEditor((evt) => {
-      console.log(evt);
-      if (!!evt) {
-        triggerAutohide();
-      }
-    });
-  }
+  // User changed tabs
+  vscode.window.onDidChangeActiveTextEditor((evt) => {
+    if (!!evt) {
+      triggerAutohide();
+    }
+  });
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
