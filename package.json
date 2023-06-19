@@ -27,6 +27,21 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Declutter",
+      "properties": {
+        "declutter.delay": {
+          "type": "number",
+          "default": 500,
+          "description": "Time in ms before the panel/sidebar is automatically hidden."
+        },
+        "declutter.autoHideSidebar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Flag that determines if the sidebar will be automatically hidden or not."
+        }
+      }
+    },
     "commands": [
       {
         "command": "declutter.helloWorld",
